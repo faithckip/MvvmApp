@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
@@ -31,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mvvmapp.R
+import com.example.mvvmapp.data.AuthViewModel
 import com.example.mvvmapp.navigation.ROUTE_HOME
 import com.example.mvvmapp.navigation.ROUTE_REGISTER
 
@@ -42,15 +44,16 @@ fun RegisterScreen(navController: NavHostController) {
     var username by remember {
         mutableStateOf(TextFieldValue())
     }
-    val email by remember {
+    var email by remember {
         mutableStateOf(TextFieldValue())
     }
     var pasword by remember {
         mutableStateOf(TextFieldValue())
     }
-    val confirmpassword by remember {
+    var confirmpassword by remember {
         mutableStateOf(TextFieldValue())
     }
+    val context= LocalContext.current
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
@@ -73,24 +76,31 @@ fun RegisterScreen(navController: NavHostController) {
             label= { Text(text = "Username") },
             onValueChange = { username = it }
         )
+        Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = email, label = { Text(text = "email") },
             onValueChange = {
-                pasword = it }
+               email = it }
         )
+        Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = pasword,
             label= { Text(text = "Password") },
-            onValueChange = { username = it }
+            onValueChange = { pasword = it }
         )
+        Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = confirmpassword, label = { Text(text = "ConfirmPassword") },
             onValueChange = {
-                pasword = it }
+                confirmpassword = it }
         )
         Spacer(modifier = Modifier.height(30.dp))
 
-        Button(onClick = { navController.navigate(ROUTE_HOME)},
+        Button(onClick = {
+            val myregister=AuthViewModel(navController, context)
+            myregister.signup(username.text.trim(),email.text.trim(), pasword.text.trim(), confirmpassword.text.trim())
+
+           },
             colors = ButtonDefaults.buttonColors(Color.Blue),
             modifier = Modifier.width(300.dp)){
             Text(text = "Save",
@@ -101,7 +111,8 @@ fun RegisterScreen(navController: NavHostController) {
         }
         Spacer(modifier = Modifier.height(60.dp))
 
-        Button(onClick = { navController.navigate(ROUTE_REGISTER) },
+        Button(onClick = { navController.navigate(ROUTE_REGISTER)
+        },
             colors = ButtonDefaults.buttonColors(Color.White),
             modifier = Modifier
                 .width(300.dp)

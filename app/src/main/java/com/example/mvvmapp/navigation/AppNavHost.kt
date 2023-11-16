@@ -26,7 +26,7 @@ fun AppNavHost(modifier: Modifier= Modifier,
 {
 
     NavHost(navController=navController,
-        modifier = Modifier,
+        modifier = modifier,
         startDestination = startDestination)
     {
 
@@ -42,17 +42,12 @@ fun AppNavHost(modifier: Modifier= Modifier,
         composable(ROUTE_LISTVIEW){
             ListViewScreen(navController)
         }
-        composable(ROUTE_CUSTOMVIEW){
-            Newfruitslist(navController)
-        }
+
         composable(ROUTE_CALC){
             CalcScreen(navController)
         }
         composable(ROUTE_INTENT){
             IntentScreen(navController )
-        }
-        composable(ROUTE_CALCULATOR){
-            //CalculatorScreen(navController)
         }
 
     }

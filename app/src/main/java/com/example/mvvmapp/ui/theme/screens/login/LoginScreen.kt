@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.TextFieldValue
@@ -36,6 +37,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.mvvmapp.R
+import com.example.mvvmapp.data.AuthViewModel
 import com.example.mvvmapp.navigation.ROUTE_LOGIN
 import com.example.mvvmapp.navigation.ROUTE_REGISTER
 
@@ -49,6 +51,8 @@ fun LoginScreen(navController: NavHostController) {
     var password by remember {
         mutableStateOf(TextFieldValue())
     }
+    var context= LocalContext.current
+
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
         modifier = Modifier
@@ -71,6 +75,7 @@ fun LoginScreen(navController: NavHostController) {
             label= { Text(text = "Username") },
             onValueChange = { username = it }
         )
+        Spacer(modifier = Modifier.height(20.dp))
         OutlinedTextField(
             value = password, label = { Text(text = "Password") },
             onValueChange = {
@@ -78,7 +83,10 @@ fun LoginScreen(navController: NavHostController) {
         )
         Spacer(modifier = Modifier.height(30.dp))
 
-        Button(onClick = { navController.navigate(ROUTE_LOGIN)},
+        Button(onClick = {
+            val myLogin = AuthViewModel(navController, context)
+            myLogin.login(username.text.trim(), password.text.trim())
+            },
             colors = ButtonDefaults.buttonColors(Color.Blue),
             modifier = Modifier.width(300.dp)){
             Text(text = "Save",

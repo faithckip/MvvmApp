@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -61,6 +62,8 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.navigation:navigation-compose:2.7.4")
     implementation("com.google.android.gms:play-services-tflite-acceleration-service:16.0.0-beta01")
+    implementation("com.google.firebase:firebase-auth:22.2.0")
+    implementation("com.google.firebase:firebase-database:20.3.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
